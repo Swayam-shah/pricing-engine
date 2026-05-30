@@ -23,7 +23,7 @@ export default function PriceChart({ data }: { data: PriceHistory }) {
                         tick={{ fontSize: 12, fill: "#6b7280" }}
                         tickFormatter={(v) => `$${v}`}
                     />
-                    <Tooltip formatter={(value: number) => [`$${value.toFixed(2)}`, ""]} />
+                    <Tooltip formatter={(value) => [`$${Number(value).toFixed(2)}`, ""]} />
                     <Legend />
                     <Line
                         type="monotone"
