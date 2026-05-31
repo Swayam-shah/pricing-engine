@@ -7,6 +7,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from db.database import init_db
 from api.routes import router
+from api.search_routes import router as search_router
 
 # ── Create FastAPI app ────────────────────────────────────────────────────────
 app = FastAPI(
@@ -26,6 +27,7 @@ app.add_middleware(
 
 # ── Register all routes under /api prefix ─────────────────────────────────────
 app.include_router(router, prefix="/api")
+app.include_router(search_router, prefix="/api")
 
 
 # ── Startup event — create DB tables if they don't exist ─────────────────────

@@ -3,7 +3,8 @@ import { useState, useEffect, useCallback } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { RefreshCw, Zap, TrendingUp } from "lucide-react";
+import { RefreshCw, Zap, TrendingUp, Search } from "lucide-react";
+import Link from "next/link";
 import StatsCards from "@/components/StatsCards";
 import PriceChart from "@/components/PriceChart";
 import RecommendationsTable from "@/components/RecommendationsTable";
@@ -35,7 +36,6 @@ export default function Dashboard() {
       setRecommendations(r);
       setLastUpdated(new Date());
 
-      // auto select first product
       if (p.length > 0 && !selectedProduct) {
         setSelectedProduct(p[0]);
       }
@@ -65,7 +65,6 @@ export default function Dashboard() {
     }
   }, [selectedProduct]);
 
-  // auto refresh every 30 seconds
   useEffect(() => {
     const interval = setInterval(fetchAll, 30000);
     return () => clearInterval(interval);
@@ -99,7 +98,7 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* ── Header ─────────────────────────────────────────────────────── */}
+      {/* Header */}
       <header className="bg-white border-b border-gray-200 px-6 py-4">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-3">
@@ -107,29 +106,40 @@ export default function Dashboard() {
               <TrendingUp className="h-5 w-5 text-white" />
             </div>
             <div>
-              <h1 className="text-lg font-semibold text-gray-900">Pricing Engine</h1>
+              <h1 className="text-lg font-semibold text-gray-900">PriceIQ</h1>
               <p className="text-xs text-gray-400">
                 Last updated: {lastUpdated.toLocaleTimeString()}
               </p>
             </div>
           </div>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={fetchAll}
-            className="gap-2 text-gray-600"
-          >
-            <RefreshCw className="h-4 w-4" />
-            Refresh
-          </Button>
+          <div className="flex items-center gap-2">
+            <Link href="/search">
+              <Button
+                className="gap-2 bg-blue-600 hover:bg-blue-700 text-white"
+                size="sm"
+              >
+                <Search className="h-4 w-4" />
+                Market Search
+              </Button>
+            </Link>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={fetchAll}
+              className="gap-2 text-gray-600"
+            >
+              <RefreshCw className="h-4 w-4" />
+              Refresh
+            </Button>
+          </div>
         </div>
       </header>
 
       <main className="max-w-7xl mx-auto px-6 py-6 space-y-6">
-        {/* ── Stats Cards ────────────────────────────────────────────────── */}
+        {/* Stats Cards */}
         {stats && <StatsCards stats={stats} />}
 
-        {/* ── Main content ───────────────────────────────────────────────── */}
+        {/* Main content */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
           {/* Products list */}
@@ -219,7 +229,7 @@ export default function Dashboard() {
           </Card>
         </div>
 
-        {/* ── Recommendations ─────────────────────────────────────────────── */}
+        {/* Recommendations */}
         <div>
           <Tabs defaultValue="pending">
             <div className="flex items-center justify-between mb-3">
